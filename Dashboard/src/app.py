@@ -7,12 +7,13 @@ import utils.review_util as rev_util
 from  utils.data_etl import get_condition_data, address_loc_map, station_color_map
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server=app.server
 data_path = '/code/gas-scrape-data.csv'
 df = get_condition_data(data_path)
 
 app.layout = html.Div([
     html.Div([
-        html.Div([html.H1('Fuel Price Analytics - Carthage, MO !')], className='col-12', id='dash_title')
+        html.Div([html.H1('Fuel Price Analytics - Carthage, MO')], className='col-12', id='dash_title')
     ], className='row'),
     html.Div([
         html.Div([
@@ -164,7 +165,7 @@ def display_map_hover(hover_data):
     name_street = pt_text.split('|')[0]
     text_parts = name_street.split('-')
     children= html.Div([
-        html.Img(src=rev_util.get_station_image(name_street), style={'width':'100%'}),
+        html.Img(src=rev_util.get_station_image(name_street), style={'width':'100%', 'borderRadius':'5px'}),
         html.P(f'Station: {text_parts[0].strip()}\r\nAddress: {text_parts[1].strip()}')
     ], style={'width': '300px', 'white-space':'pre-wrap'})
     return True, bbox, children

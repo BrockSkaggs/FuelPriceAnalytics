@@ -1,7 +1,9 @@
 from dash import html, clientside_callback, Input, Output, MATCH
 import dash_bootstrap_components as dbc
 import datetime as dt
+import numpy as np
 import pandas as pd
+from typing import Tuple
 import uuid
 from utils.review_util import get_station_image
 
@@ -35,6 +37,7 @@ class StationCardAIO(html.Div):
 
     def build_layout(self, aio_id: str):
         scrape_time, latest_prices = self.get_latest_pricing()
+        mean_pos, mean_low_price = self.get_mean_card_pos()
         station_street = self.df['StationAddress'].iloc[0].split('|')[0].strip()
 
         time_note = scrape_time.strftime('%m/%d/%Y %H:%M')
@@ -55,38 +58,92 @@ class StationCardAIO(html.Div):
                     ], className='row'),
                     html.Div([
                         html.Div([
-                            html.Img(src=get_station_image(station_street), style={'width':'100%'})
+                            html.Img(src=get_station_image(station_street), style={'width':'100%', 'borderRadius':'10px'})
                         ], className='col-12')
                     ], className='row'),
                     html.Div([
                         html.Div([
                             html.Span(f'Prices as of {time_note}', style=prices_note_style)
                         ], className='col-12')
-                    ], className='row'),
+                    ], className='row mt-1'),
                     html.Div([
                         html.Div([
-                            html.Span(f"◼️ Regular: {latest_prices['regular']}")
+                            html.Span(f"◼️ Regular: {self.cond_price(latest_prices['regular'])}")
                         ], className='col-4'),
                         html.Div([
-                            html.Span(f"◼️ Premium: {latest_prices['premium'] if latest_prices['premium'] is not None else 'N/A'}")
+                            html.Span(f"◼️ Premium: {self.cond_price(latest_prices['premium'])}")
                         ], className='col-4'),
                         html.Div([
-                            html.Span(f"◼️ Diesel: {latest_prices['diesel'] if latest_prices['diesel'] is not None else 'N/A'}")
+                            html.Span(f"◼️ Diesel: {self.cond_price(latest_prices['diesel'])}")
                         ], className='col-4'),
+                    ], className='row mt-1'),
+                    html.Div([
+                        html.Div([
+                            html.Span('Average Station Position', style={'fontWeight':'bold'})
+                        ], className='col-12')
+                    ], className='row mt-1'),
+                    html.Div([
+                        html.Div([
+                            html.Span(f"◼️ Regular: {self.cond_station_pos(mean_pos['regular'])}")
+                        ], className='col-4'),
+                        html.Div([
+                            html.Span(f"◼️ Premium: {self.cond_station_pos(mean_pos['premium'])}")
+                        ], className='col-4'),
+                        html.Div([
+                            html.Span(f"◼️ Diesel: {self.cond_station_pos(mean_pos['diesel'])}")
+                        ], className='col-4')
+                    ], className='row mt-1'),
+                    html.Div([
+                        html.Div([
+                            html.Span('Average Low Price Delta', style={'fontWeight':'bold'})
+                        ], className='col-12')
+                    ], className='row mt-1'),
+                    html.Div([
+                        html.Div([
+                            html.Span(f"◼️ Regular: {self.cond_price(mean_low_price['regular'])}")
+                        ], className='col-4'),
+                        html.Div([
+                            html.Span(f"◼️ Premium: {self.cond_price(mean_low_price['premium'])}")
+                        ], className='col-4'),
+                        html.Div([
+                            html.Span(f"◼️ Diesel: {self.cond_price(mean_low_price['diesel'])}")
+                        ], className='col-4')
                     ], className='row mt-1')
                 ], className='container-fluid')
             ]), id=self.ids.card(aio_id)
         )
 
+    @property
+    def fuel_types(self):
+        return ['regular', 'premium', 'diesel']
+
     def get_latest_pricing(self) -> tuple:
         df_max = self.df[self.df['ScrapeTime'] == self.df['ScrapeTime'].max()].copy()
-        # time_note = df_max['ScrapeTime'].iloc[0].strftime('%m/%d/%Y %H:%M')
         scrape_time = df_max['ScrapeTime'].iloc[0].to_pydatetime()
         fuel_prices = {}
-        for f_type in ('regular', 'premium', 'diesel'):
+        for f_type in self.fuel_types:
             dff = df_max[df_max['FuelType'] == f_type]
             fuel_prices[f_type] = None if dff.shape[0] == 0 else dff['CondPrice'].iloc[0]
         return (scrape_time, fuel_prices)
+
+    def get_mean_card_pos(self) -> Tuple[dict, dict]:
+        mean_pos = {}
+        mean_low_price_delta = {}
+        for f_type in self.fuel_types:
+            dff = self.df[self.df['FuelType'] == f_type].copy()
+            mean_pos[f_type] = dff['CondCardPos'].mean() + 1 #Convert from 0 to 1 indexed.
+            mean_low_price_delta[f_type] = dff['PriceDelta'].mean()
+        return mean_pos, mean_low_price_delta
+
+    def cond_price(self, price: float) -> str:
+        if price is None or price is np.nan:
+            return 'N/A'
+        return f"${price:.2f}"
+
+    def cond_station_pos(self, pos: float) -> str:
+        if pos > 0:
+            return f"{pos:.1f}"
+        return 'N/A'
 
     clientside_callback(
         """function(clicks){

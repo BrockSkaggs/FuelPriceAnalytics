@@ -90,10 +90,10 @@ def build_summary_time_series_chart(df: pd.DataFrame, fuel_type: str) -> go.Figu
     return go.Figure(data=traces, layout=layout)
 
 def get_station_image(station_address: str):
-    img_dir = './src/assets/images/'
+    img_dir = '/code/src/assets/images/'
     img_path = path.join(img_dir, f"{station_address}.jpg")
     if not path.exists(img_path):
-        img_path = './src/assets/images/test-img.jpg'
+        return ''
     im = Image.open(img_path)
     buffer = io.BytesIO()
     im.save(buffer, format="jpeg")
