@@ -24,9 +24,7 @@ def build_lowest_price_time_series_chart(df: pd.DataFrame) -> go.Figure:
         traces.append(get_time_series_by_type_pos(df, fuel_type))
 
     layout = {
-        # 'height':600,
-        #'yaxis': {'range':[3,4.2], 'dtick': 0.1},
-        'title': {'text':'Lowest Fuel Prices in Carthage, MO'}
+        'title': {'text':'Lowest Fuel Prices in Carthage, MO', 'font': {'size':24}}
     }
         
     return go.Figure(data=traces, layout=layout)
@@ -60,9 +58,7 @@ def build_station_time_series_chart(df: pd.DataFrame, fuel_type: str) -> go.Figu
     station_traces = build_fuel_type_station_traces(fuel_type)
 
     layout = {
-        # 'height':600,
-        #'yaxis': {'range':[3,4.2], 'dtick': 0.1},
-        'title': {'text':'Fuel Price Time Series by Station'},
+        'title': {'text':'Fuel Price Time Series by Station', 'font': {'size':24}},
         'hovermode':'x'
     }
         
@@ -84,7 +80,7 @@ def build_summary_time_series_chart(df: pd.DataFrame, fuel_type: str) -> go.Figu
     traces = compute_summary_time_series(df, fuel_type)
     layout = {
         'height':500,
-        'title': {'text':'Summary Time Series'},
+        'title': {'text':'Summary Time Series', 'font': {'size':24}},
         'hovermode':'x'
     }
     return go.Figure(data=traces, layout=layout)
