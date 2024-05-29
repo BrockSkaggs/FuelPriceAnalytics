@@ -199,4 +199,4 @@ def gen_station_card(user_station_address: str):
 
 if __name__ == '__main__':
     # print("running main...")
-    app.run(debug=True, host='0.0.0.0', port='8049', dev_tools_hot_reload=True)
+    app.run(debug=True, host='0.0.0.0', port='8050', dev_tools_hot_reload=True)
