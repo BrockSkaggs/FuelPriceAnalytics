@@ -17,7 +17,7 @@ A screenshot of the dashboard can be seen in the figure below.  This screenshot 
 
 ![Dashboard Screenshot](ProjectVisuals/DashboardScreenshot.PNG)
 
-A short video of the dashboard can be accessed [here](ProjectVisuals/DashboardDemo.mp4).
+A short video of the dashboard can be accessed [here](ProjectVisuals/DashboardDemo.mp4) and a containerized version of the dashboard can be found at [brockskaggs/fuel-price-analytics](https://hub.docker.com/repository/docker/brockskaggs/fuel-price-analytics/general) on dockerhub.
 
 **Data Observations**  
 If we can assume the pricing information from the GasBuddy website is accurate, then the following observations can be drawn from the data.
