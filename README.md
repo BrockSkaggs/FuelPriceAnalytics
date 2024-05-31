@@ -8,3 +8,21 @@ Pricing data was retrieved on a daily schedule from the [GasBuddy](https://www.g
 
 **Data Presentation**  
 An interactive web dashboard has been created for the consumption of the data using Plotly's Dash framework.  The dashboard contains time series charts, map locating stations, and cards to present metric associated with each station.  This part of the project is located within the Dashboard project folder.
+
+A screenshot of the dashboard can be seen in the figure below.  This screenshot illustrates the following features of the dashboard.
+
+- Time series plot with traces showing the recorded regular fuel price for each station.
+- Map showing the location of each station with a tooltip containing an image of the station with its address.
+- Individual cards reporting summary metrics for 4 stations.
+
+![Dashboard Screenshot](ProjectVisuals/DashboardScreenshot.PNG)
+
+A short video of the dashboard can be accessed [here](ProjectVisuals/DashboardDemo.mp4).
+
+**Data Observations**  
+If we can assume the pricing information from the GasBuddy website is accurate, then the following observations can be drawn from the data.
+
+- The highest price for regular fuel was $3.23 occurring on April 12-14.  The lowest price observed was $2.93 on May 29. 
+- Diesel fuel prices remained relatively stable compared with the other two types.
+- Murphy USA (2635 Grand Ave) consistently recorded the lowest regular fuel price.
+- Variations in regular fuel prices across the set of stations on a given day varied considerably.  The smallest variation was $0.04 while the largest was $0.21.  

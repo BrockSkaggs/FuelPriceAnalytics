@@ -45,7 +45,8 @@ class StationCardAIO(html.Div):
         if(scrape_time.date() != dt.date.today()):
             prices_note_style['color'] = 'red'
             delta = (dt.date.today() - scrape_time.date()).days
-            time_note += f" ({delta} days ago)"
+            cond_delta_unit = 'day' if delta == 1 else 'days'
+            time_note += f" ({delta} {cond_delta_unit} ago)"
 
         return dbc.Card(
             dbc.CardBody([
