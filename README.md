@@ -17,7 +17,7 @@ A screenshot of the dashboard can be seen in the figure below.  This screenshot 
 
 ![Dashboard Screenshot](ProjectVisuals/DashboardScreenshot.PNG)
 
-A short video of the dashboard can be accessed [here](ProjectVisuals/DashboardDemo.mp4) and a containerized version of the dashboard can be found at [brockskaggs/fuel-price-analytics](https://hub.docker.com/repository/docker/brockskaggs/fuel-price-analytics/general) on dockerhub.
+A short video of the dashboard can be accessed [here](ProjectVisuals/DashboardDemo.mp4) and a containerized version of the dashboard can be found at [brockskaggs/fuel-price-analytics](https://hub.docker.com/r/brockskaggs/fuel-price-analytics) on dockerhub.
 
 **Data Observations**  
 If we can assume the pricing information from the GasBuddy website is accurate, then the following observations can be drawn from the data.
@@ -25,4 +25,4 @@ If we can assume the pricing information from the GasBuddy website is accurate, 
 - The highest price for regular fuel was $3.23 occurring on April 12-14.  The lowest price observed was $2.93 on May 29. 
 - Diesel fuel prices remained relatively stable compared with the other two types.
 - Murphy USA (2635 Grand Ave) consistently recorded the lowest regular fuel price.
-- Variations in regular fuel prices across the set of stations on a given day varied considerably.  The smallest variation was $0.04 while the largest was $0.21.  
+- Regular fuel prices across the set of stations on a given day varied considerably.  The smallest variation was $0.04 while the largest was $0.21.  
